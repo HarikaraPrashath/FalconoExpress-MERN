@@ -9,7 +9,6 @@ import give from "../../assets/img/give.png";
 import Footer from "../../components/Footer/Footer";
 import Feature from "../../components/HomePageFeature/FeatureDetails";
 import Pricing from "../../components/HomePageFeature/Pricing";
-import Feedback from "../../components/HomePageFeature/Feedback";
 import Testimonials from "../../components/HomePageFeature/Feedback";
 import CallToAction from "../../components/HomePageFeature/CallToAction";
 
