@@ -12,9 +12,21 @@ function App() {
     <BrowserRouter>
     <Navbar/>
      <Routes>
+      {/* Home Page */}
       <Route path='/' element={<HomePage/>}/>
       <Route path='/login' element={<Login/>}/>
       <Route path='/register' element={<Register/>}/>
+
+      {/* User       */}
+
+
+      {/* Admin */}
+
+
+      {/* Admin-Pay-Sub */}
+
+
+      {/* Deliver */}
      </Routes>
     </BrowserRouter>
   )
