@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import home from "../../assets/img/home.png";
 import { TbTruckDelivery } from "react-icons/tb";
 import Button from "../../components/Button/Button";
@@ -54,9 +54,11 @@ const HomePage = () => {
         </div>
 
         {/* Steps to Package Delivery Section */}
+
         <h2 className="text-4xl mt-6 font-semibold text-center text-gray-800 mb-6">
           Steps to Package Delivery
         </h2>
+
         <div className="flex gap-25 justify-center items-center mt-12 ">
           {/* Order Section */}
           <div className="flex flex-col items-center text-center bg-white p-6 rounded-lg shadow-lg hover:shadow-xl transition-shadow duration-300">
@@ -68,7 +70,7 @@ const HomePage = () => {
             <p className="text-2xl font-semibold text-gray-800">
               Place the Order
             </p>
-            <p className="font-bold text-2xl">+43</p>
+            <p className="font-bold text-2xl"> 44+</p>
           </div>
 
           {/* Packing Section */}
@@ -81,7 +83,7 @@ const HomePage = () => {
             <p className="text-2xl font-semibold text-gray-800">
               Packing the Order
             </p>
-            <p className="font-bold text-2xl">+43</p>
+            <p className="font-bold text-2xl"> 44+</p>{" "}
           </div>
 
           {/* Delivery Section */}
@@ -94,7 +96,7 @@ const HomePage = () => {
             <p className="text-2xl font-semibold text-gray-800">
               Collect the Package
             </p>
-            <p className="font-bold text-2xl">+43</p>
+            <p className="font-bold text-2xl"> 44+</p>{" "}
           </div>
 
           {/* Safe Delivery Section */}
@@ -104,8 +106,10 @@ const HomePage = () => {
               alt="Safely deliver"
               className="h-40 mb-4 object-contain"
             />
-            <p className="text-2xl font-semibold text-gray-800">Safe Delivery</p>
-            <p className="font-bold text-2xl">+43</p>
+            <p className="text-2xl font-semibold text-gray-800">
+              Safe Delivery
+            </p>
+            <p className="font-bold text-2xl"> 44+</p>{" "}
           </div>
         </div>
 
@@ -139,7 +143,9 @@ const HomePage = () => {
               {/* Outlet Item 1 */}
               <div className="flex justify-between items-center mb-6">
                 <div className="flex-1 pr-4">
-                  <h1 className="text-xl font-bold text-gray-700">Maharagama</h1>
+                  <h1 className="text-xl font-bold text-gray-700">
+                    Maharagama
+                  </h1>
                   <p className="text-gray-600">Rating: 5.6</p>
                   <p className="text-gray-600">(2k)-Rs-Colombo</p>
                   <p className="text-red-600 font-medium">24-hour open</p>
@@ -181,7 +187,9 @@ const HomePage = () => {
               {/* Outlet Item 3 */}
               <div className="flex justify-between items-center mb-6">
                 <div className="flex-1 pr-4">
-                  <h1 className="text-xl font-bold text-gray-700">Katugasdoda</h1>
+                  <h1 className="text-xl font-bold text-gray-700">
+                    Katugasdoda
+                  </h1>
                   <p className="text-gray-600">Rating: 5.6</p>
                   <p className="text-gray-600">(2k)-Rs-Kandy</p>
                   <p className="text-red-600 font-medium">24-hour open</p>
