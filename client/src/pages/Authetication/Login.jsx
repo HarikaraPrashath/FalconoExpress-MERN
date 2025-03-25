@@ -1,32 +1,32 @@
 import React, { useState } from "react";
+import { useLogin } from "../../hook/UseLogin";
+import Loading from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 const Login = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const [error, setError] = useState("");
+   const navigate = useNavigate();
+
+
+  const { login, isLoading, error } = useLogin();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("Submitting...");
-  
-    // Clear previous errors
-    setError("");
-  
-    // Validation for empty fields
-    if (!email || !password) {
-      setError("Please fill in all details.");
-      return; // Stop execution
+
+    const response = await login(email, password);
+
+    if (response.error) {
+      console.log("Error", response.error);
+    } else {
+      console.log("Success", response);
+      navigate("/");
+    
     }
-  
-    // Validate email format
-    if (!/\S+@\S+\.\S+/.test(email)) {  
-      setError("Please enter a valid email address.");
-      return;
-    }
-  
+
     console.log("Submit successful");
   };
-  
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-100 p-6 bg-gradient-to-r from-red-600 to-red-400">
@@ -85,9 +85,10 @@ const Login = () => {
 
             <button
               type="submit"
-              className="w-full bg-red-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-red-600 transition-all duration-300"
+              className="w-full bg-red-500 text-white py-2 rounded-md text-lg font-semibold hover:bg-red-600 transition-all duration-300"
+              disabled={isLoading}
             >
-              Log in
+              {isLoading ? <Loading /> : "LogIn"}
             </button>
           </form>
 
