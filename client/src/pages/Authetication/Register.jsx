@@ -1,32 +1,32 @@
 import React, { useState } from "react";
+import { useRegister } from "../../hook/UseRegister,";
+import Loading from "../../components/Loading";
+import { useNavigate } from "react-router-dom";
 
 const Register = () => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [username, setUsername] = useState("");
-  const [error, setError] = useState("");
+  const navigate = useNavigate();
 
+  
+  const { register, isLoading, error }= useRegister();
 
+  
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("Submitting...");
+    console.log("Loading...");
   
-    // Clear previous errors
-    setError("");
+    const response = await register(username, email, password);
   
-    // Validation for empty fields
-    if (!email || !password || !username) {
-      setError("Please fill in all details.");
-      return; // Stop execution
+    if (response?.error) {
+      console.log("Error:", response.error);
+    } else {
+      console.log("Success:", response);
+      navigate("/login");
     }
   
-    // Validate email format
-    if (!/\S+@\S+\.\S+/.test(email)) {
-      setError("Please enter a valid email address.");
-      return;
-    }
-  
-    console.log("Submit successful");
+    console.log("Loading end");
   };
   
 
@@ -54,11 +54,11 @@ const Register = () => {
             <p className="text-red-500 text-sm text-center mb-4">{error}</p>
           )}
 
-          <form  onChange={handleSubmit} className="space-y-4">
+          <form  onSubmit={handleSubmit} className="space-y-4">
             <div>
               <label className="block text-gray-700 text-sm">Username</label>
               <input
-                type="password"
+                type="text"
                 value={username}
                 onChange={(e) => setUsername(e.target.value)}
                 placeholder="Enter your username"
@@ -98,10 +98,12 @@ const Register = () => {
 
             <button
               type="submit"
-              className="w-full bg-red-500 text-white py-3 rounded-md text-lg font-semibold hover:bg-red-600 transition-all duration-300"
+              className="w-full bg-red-500 text-white py-2 rounded-md text-lg font-semibold hover:bg-red-600 transition-all duration-300"
+              disabled={isLoading}
             >
-              Log in
+              {isLoading ? <Loading /> : "Register"}
             </button>
+
           </form>
 
           <p className="mt-4 text-center text-gray-600">
