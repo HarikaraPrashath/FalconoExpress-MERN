@@ -12,10 +12,10 @@ const Pricing = () => {
           {/* Basic Plan */}
           <div className="bg-white p-6 rounded-lg shadow-md flex flex-col items-center">
             <h3 className="text-xl font-semibold text-gray-700">Basic</h3>
-            <p className="text-gray-600 mt-2">For occasional shippers</p>
+            <p className="text-gray-600 mt-2">For occasional delivery</p>
             <p className="text-3xl font-bold text-red-500 mt-4">$9.99<span className="text-sm text-gray-500">/month</span></p>
             <ul className="text-gray-600 mt-4 space-y-2">
-              <li className="flex items-center gap-2"><CheckCircle className="text-red-500" /> Up to 10 shipments/month</li>
+              <li className="flex items-center gap-2"><CheckCircle className="text-red-500" /> Up to 10 delivery/month</li>
               <li className="flex items-center gap-2"><CheckCircle className="text-red-500" /> Standard tracking</li>
               <li className="flex items-center gap-2"><CheckCircle className="text-red-500" /> Email support</li>
             </ul>
