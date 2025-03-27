@@ -10,7 +10,7 @@ import { Link, useParams } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import SearchBar from "../../components/SearchBar/SearchBar";
 
-const UserProfile = () => {
+const Payment = () => {
   const { user } = useAuthContext();
   const { id } = useParams();
 
@@ -43,21 +43,21 @@ const UserProfile = () => {
           <nav className="space-y-4">
             <Link
               to={`/userprofile/${id}`}
-              className="flex items-center space-x-2 w-full text-left p-2  bg-white text-red-600  rounded"
+              className="flex items-center space-x-2 w-full text-left p-2  hover:bg-white hover:text-red-600 rounded"
             >
               <FaBookmark className="text-xl" />
               <span>Orders</span>
             </Link>
             <Link
               to={`/information/${id}`}
-              className="flex items-center space-x-2 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
+              className="flex items-center space-x-2 w-full text-left p-2  hover:bg-white hover:text-red-600 rounded"
             >
               <IoIosInformationCircle className="text-xl" />
               <span>Information</span>
             </Link>
             <Link
               to={`/payment/${id}`}
-              className="flex items-center space-x-2 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
+              className="flex items-center space-x-2 w-full text-left p-2 bg-white text-red-600  rounded"
             >
               <MdOutlinePayment className="text-xl" />
               <span>Payment</span>
@@ -65,7 +65,7 @@ const UserProfile = () => {
 
             <Link
               to={`/promotion/${id}`}
-              className="flex items-center space-x-2 w-full text-left p-2 hover:bg-white hover:text-red-600  rounded"
+              className="flex items-center space-x-2 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
             >
               <BiSolidOffer className="text-xl" />
               <span>Promotion</span>
@@ -91,20 +91,20 @@ const UserProfile = () => {
           <table className="w-full border-collapse">
             <thead>
               <tr className="bg-red-500 text-white">
-                <th className="p-3 text-left">OrderID</th>
+                <th className="p-3 text-left">Name</th>
                 <th className="p-3 text-left">Email</th>
                 <th className="p-3 text-left">Phone</th>
-                <th className="p-3 text-left">  </th>
+                <th className="p-3 text-left">ReferenceNum</th>
                 <th className="p-3 text-left">Status</th>
                 <th className="p-3 text-left">Action</th>
               </tr>
             </thead>
             <tbody>
               <tr className="border-b">
-                <td className="p-3">98eqwihs879</td>
+                <td className="p-3">John Doe</td>
                 <td className="p-3">john@example.com</td>
                 <td className="p-3">123-456-7890</td>
-                <td className="p-3">2025-1-2</td>
+                <td className="p-3">#REF12345</td>
                 <td className="p-3 text-green-500">Pending</td>
                 <td className="p-3 flex gap-3">
                   <button className="text-blue-500 hover:text-blue-700">
@@ -123,4 +123,4 @@ const UserProfile = () => {
   );
 };
 
-export default UserProfile;
+export default Payment;
