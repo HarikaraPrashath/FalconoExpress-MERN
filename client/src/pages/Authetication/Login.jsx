@@ -18,7 +18,7 @@ const Login = () => {
     const response = await login(email, password);
 
     if (response.error) {
-      console.log("Error", response.error);
+      alert("Error", response.error.message);
     } else {
       console.log("Success", response);
       navigate("/");

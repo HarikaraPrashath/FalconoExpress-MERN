@@ -5,7 +5,97 @@ import Navbar from './components/NavigationBar/Navbar'
 import Login from './pages/Authetication/Login'
 import Register from './pages/Authetication/Register'
 import UserProfile from './pages/UserProfilePage/UserProfile'
+import Promotion from './pages/UserProfilePage/Promotion'
+import Payment from './pages/UserProfilePage/Payment'
+import Information from './pages/UserProfilePage/Information'
 import ContactUs from './pages/Home/Contactus/Contact'
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 function App() {
 
@@ -27,17 +117,104 @@ function App() {
 
 
 
-      {/* User       */}
+      {/* User    start   */}
       <Route path='/userprofile/:id' element={<UserProfile/>}/>
+      <Route path='/promotion/:id' element={<Promotion/>}/>
+      <Route path='/payment/:id' element={<Payment/>}/>
+      <Route path='/information/:id' element={<Information/>}/>
 
 
-      {/* Admin */}
 
 
-      {/* Admin-Pay-Sub */}
 
 
-      {/* Deliver */}
+
+
+
+
+      {/* user end */}
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      </Routes>
     </BrowserRouter>
   )
