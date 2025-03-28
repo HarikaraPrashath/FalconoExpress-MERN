@@ -9,6 +9,7 @@ import Promotion from './pages/UserProfilePage/Promotion'
 import Payment from './pages/UserProfilePage/Payment'
 import Information from './pages/UserProfilePage/Information'
 import ContactUs from './pages/Home/Contactus/Contact'
+import Aboutuspage from '.././src/pages/Home/About/Aboutuspage';
 
 
 
@@ -213,7 +214,10 @@ function App() {
 
 
 
+      {/* Tharshan start */}
+      <Route path="/aboutuspage" element={<Aboutuspage />} />
 
+      {/* Tharshan end */}
 
      </Routes>
     </BrowserRouter>

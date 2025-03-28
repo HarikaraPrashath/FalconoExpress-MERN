@@ -31,7 +31,7 @@ function Navbar() {
       <div className="flex gap-6">
         <NavItem to="/" label="Home" activePath={location.pathname} />
         <NavItem to="/delivery" label="Delivery" activePath={location.pathname} />
-        <NavItem to="/about" label="About" activePath={location.pathname} />
+        <NavItem to="/aboutuspage" label="About" activePath={location.pathname} />
         <NavItem to="/contact" label="Contact" activePath={location.pathname} />
       </div>
 
