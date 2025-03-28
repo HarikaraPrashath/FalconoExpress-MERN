@@ -94,7 +94,7 @@ const UserProfile = () => {
                 <th className="p-3 text-left">OrderID</th>
                 <th className="p-3 text-left">Email</th>
                 <th className="p-3 text-left">Phone</th>
-                <th className="p-3 text-left">  </th>
+                <th className="p-3 text-left">Date</th>
                 <th className="p-3 text-left">Status</th>
                 <th className="p-3 text-left">Action</th>
               </tr>

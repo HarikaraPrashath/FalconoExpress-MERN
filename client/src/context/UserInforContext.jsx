@@ -2,7 +2,7 @@ import { createContext, useReducer } from "react";
 
 export const UserInformation = createContext();
 
-//Reducer
+// Reducer function
 export const userInformationReducer = (state, action) => {
   switch (action.type) {
     case "SET_INFOR":
@@ -16,22 +16,25 @@ export const userInformationReducer = (state, action) => {
         ...state,
         UserInformation: [
           action.payload,
-          ...action(state.UserInformation || []),
+          ...(state.UserInformation || []), // ✅ Corrected spread
         ],
       };
 
-    //if it really need can add DELETE_ORDER also
+    case "INFOR_DELETE":
+      return {
+        ...state,
+        UserInformation: state.UserInformation.filter((w) => w._id !== action.payload._id),
+      };
 
     default:
       return state;
   }
 };
 
-//context Provider
-
+// Context Provider
 export const UserInformationContextProvider = ({ children }) => {
   const [state, dispatch] = useReducer(userInformationReducer, {
-    userInformation: null,
+    UserInformation: null, // ✅ Corrected initial state
   });
 
   return (

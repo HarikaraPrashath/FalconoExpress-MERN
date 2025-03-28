@@ -10,6 +10,93 @@ import Payment from './pages/UserProfilePage/Payment'
 import Information from './pages/UserProfilePage/Information'
 import ContactUs from './pages/Home/Contactus/Contact'
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 function App() {
 
 
@@ -30,7 +117,7 @@ function App() {
 
 
 
-      {/* User       */}
+      {/* User    start   */}
       <Route path='/userprofile/:id' element={<UserProfile/>}/>
       <Route path='/promotion/:id' element={<Promotion/>}/>
       <Route path='/payment/:id' element={<Payment/>}/>
@@ -38,13 +125,96 @@ function App() {
 
 
 
-      {/* Admin */}
 
 
-      {/* Admin-Pay-Sub */}
 
 
-      {/* Deliver */}
+
+
+
+      {/* user end */}
+    
+    
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      </Routes>
     </BrowserRouter>
   )

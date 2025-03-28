@@ -29,7 +29,7 @@ const Information = () => {
 
   const handleSuccess = () => {
     setShowPopUp(false);
-    setSuccessMessage("successfully bought the product");
+    setSuccessMessage("successfully Add Personal Details");
     setTimeout(() => {
       setSuccessMessage("");
     }, 3000);
@@ -162,10 +162,13 @@ const Information = () => {
           </div>
 
           {showPopUp && (
-            <div className="popup-overlay" onClick={() => setShowPopUp(false)}>
+            <div
+              className="popup-overlay"
+              onClick={() => setShowPopUp(false)} // Close on clicking the overlay
+            >
               <div
                 className="popup-content"
-                // onClick={(e) => e.stopPropagation()}
+                onClick={(e) => e.stopPropagation()} // Stop click propagation on popup content
               >
                 <PopupForm
                   onClose={() => setShowPopUp(false)}
