@@ -8,8 +8,8 @@ const inforDetails = require("./routes/DetailsRoutes/detailsRoute");
 const paymentDetails = require("./routes/PaymentRotes/PaymentRoute");
 
 
-
-
+const connectDB = require('./config/db');
+const productRoutes = require('./routes/Delivery/productRoutes');
 
 
 
@@ -43,6 +43,9 @@ app.use("/details", inforDetails);
 app.use("/payment", paymentDetails);
 
 
+app.use('/api', productRoutes);
+
+
 
 
 
@@ -57,23 +60,29 @@ if (!MongoAddress) {
   process.exit(1);
 }
 
-//database connection
-const connectDB = async () => {
-  try {
-    await mongoose.connect(process.env.MONGO_ADDRESS);
 
-    console.log("Successfully connected to MongoDB");
 
-    // Start the server after successful DB connection
-    const PORT = process.env.PORT || 5000;
-    app.listen(PORT, () => {
-      console.log(`Server is running on http://localhost:${PORT}`);
-    });
-  } catch (error) {
-    console.error("Database connection error:", error.message);
-    process.exit(1);
-  }
-};
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 // Call the function to connect to DB
 connectDB();
+
+
+// Start the server after DB connection
+const PORT = process.env.PORT || 5000;
+app.listen(PORT, () => {
+  console.log(`Server is running on http://localhost:${PORT}`);
+});
