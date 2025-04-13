@@ -39,7 +39,7 @@ function Navbar() {
       <div>
         {user && user.user ? (
           user.user.role === "admin" ? (
-            <Button to="/admin-dashboard" label="Dashboard" />
+            <Button to="/adminOrder" label="Dashboard" />
           ) : (
             <Button to={`/userProfile/${user.user.id}`} label="Account" />
           )
