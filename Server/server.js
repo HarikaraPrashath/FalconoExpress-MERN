@@ -24,7 +24,7 @@ const paymentDetails = require("./routes/PaymentRotes/PaymentRoute");
 
 
 
-const orderDelivery = require("./routes/OrderRoutes/orderRoutes");
+
 const app = express();
 
 app.use(
@@ -49,9 +49,6 @@ app.use("/payment", paymentDetails);
 
 
 
-
-
-app.use("/api/orders", orderDelivery);
 //checking database connection
 const MongoAddress = process.env.MONGO_ADDRESS;
 

@@ -5,7 +5,7 @@ const {
   cancelOrder,
   getAllOrders,
   UpdateDelivery
-} = require('../../controller/OrcderController/orderController');
+} = require('../../controllers/orderController');
 
 router.post('/assign', assignDelivery);
 router.put('/update/:orderNo', UpdateDelivery);

@@ -1,4 +1,4 @@
-const Order = require('../../models/Ordermodel/Order.js');
+const Order = require('../../models/');
 
 exports.assignDelivery = async (req, res) => {
   const { orderNo, deliveryPerson, adminNotes } = req.body;
