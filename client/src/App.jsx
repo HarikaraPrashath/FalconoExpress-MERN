@@ -49,6 +49,46 @@ function App() {
       <Route path="/history" element={<HistoryPage />} />
 
 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
      </Routes>
     </BrowserRouter>
   )

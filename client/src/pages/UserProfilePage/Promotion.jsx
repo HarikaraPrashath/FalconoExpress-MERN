@@ -86,6 +86,8 @@ const Promotion = () => {
         {/* Search Bar */}
         <SearchBar/>
 
+
+{/* under the this button all the token are show here */}
         {/* Table */}
         <div className="bg-white p-4 rounded-lg shadow-lg overflow-auto">
           <table className="w-full border-collapse">

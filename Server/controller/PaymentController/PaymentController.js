@@ -6,7 +6,7 @@ const addPayment = async (req, res) => {
   try {
     console.log("Request body:", req.body); // Debug log to inspect incoming data
 
-    const { bank, branch, cNumber, cardType, owner, expiryDate } = req.body;
+    const { bank, branch, cNumber, cardType, owner, expiryDate,cnn} = req.body;
     const user_id = req.user._id; // Assuming middleware sets req.user
 
     if (!user_id) {
@@ -20,6 +20,7 @@ const addPayment = async (req, res) => {
       cardType,
       owner,
       expiryDate,
+      cnn,
       user_id,
     });
     await payment.save();
@@ -71,7 +72,7 @@ const getOneDetails = async (req, res) => {
 //update form using ID
 const updatePaymentById = async (req, res) => {
   const { id } = req.params; // Extract user_id from request parameters
-  const { bank, branch, cNumber, cardType, owner, expiryDate } = req.body;
+  const { bank, branch, cNumber, cardType, owner, expiryDate,cnn} = req.body;
 
   try {
     // Find and update payment details based on user_id
