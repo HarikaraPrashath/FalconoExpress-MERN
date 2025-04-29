@@ -1,4 +1,4 @@
-import React, { useState,useEffect } from "react";
+import React, { useState, useEffect } from "react";
 import { AiFillHome } from "react-icons/ai";
 import { IoIosInformationCircle } from "react-icons/io";
 import { MdOutlinePayment } from "react-icons/md";
@@ -9,16 +9,24 @@ import { Link, useParams } from "react-router-dom";
 import { useAuthContext } from "../../hook/useAuthContext";
 import SearchBar from "../../components/SearchBar/SearchBar";
 import PopupForm from "../../components/Popup/PaymentPopUp";
+import PopupFormUpdate from "../../components/Popup/PaymentPopUpUpdate";
+import CreditCard from "../../components/CardBank/CreditCard";
+
+import TokenCreationForm from "../../components/TokenCreation/TokenCreationForm";
+import { FaKey } from "react-icons/fa";
+
 
 const Payment = () => {
   const { user } = useAuthContext();
   const { id } = useParams();
-  const [showPopUp, setShowPopUp] = useState(false);
+  const [showAddPopup, setShowAddPopup] = useState(false);
+  const [showUpdatePopup, setShowUpdatePopup] = useState(false);
   const [successMessage, setSuccessMessage] = useState("");
   const [paymentForUser, setPaymentForUser] = useState([]);
+  const [selectedPayment, setSelectedPayment] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
 
-
-console.log("User session Details form Payment Page and pop up ",user)
+  const [showTokenPopup, setShowTokenPopup] = useState(false);
 
   const logoutUser = () => {
     localStorage.removeItem("authToken");
@@ -28,60 +36,79 @@ console.log("User session Details form Payment Page and pop up ",user)
     window.location.href = "/";
   };
 
-  //success message show
-  const handleSuccess = () => {
-    setShowPopUp(false);
-    setSuccessMessage("successfully Add Payment Details");
-    setTimeout(() => {
-      setSuccessMessage("");
-    }, 3000);
+  const handleEdit = (payment) => {
+    setSelectedPayment(payment);
+    setShowUpdatePopup(true);
   };
 
+  const handleSuccess = () => {
+    setShowAddPopup(false);
+    setSuccessMessage("Successfully updated payment details!");
+    setSuccessMessage("Successfully added payment details!");
+    setTimeout(() => setSuccessMessage(""), 3000);
+    fetchPayments();
+  };
 
-  console.log("user",user)
-  console.log("user token",user.token)
-  console.log("user _ id",user.user.id)
+  const fetchPayments = async () => {
+    if (!user || !user.token || !user.user.id) return;
 
-  //fetching all product base on user
-  useEffect(() => {
-    const fetchWorkouts = async () => {
-      if (!user || !user.token || !user.user.id) {
-        console.error("No user, token, or user ID available");
-        return;
-      }
-  
-      try {
-        const response = await fetch(
-          `${import.meta.env.VITE_FRONT_END_API_URL}/payment/getOne/${user.user.id}`, // Pass the user ID
-          {
-            method: "GET",
-            headers: {
-              Authorization: `Bearer ${user.token}`,
-              "Content-Type": "application/json",
-            },
-          }
-        );
-        console.log(
-          "Authorization Header inside the useEffect:",
-          `Bearer ${user.token}`
-        );
-  
-        if (!response.ok) {
-          throw new Error(`HTTP error! status: ${response.status}`);
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_FRONT_END_API_URL}/payment/getOne/${
+          user.user.id
+        }`,
+        {
+          method: "GET",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
         }
-  
-        const data = await response.json();
-  
-        setPaymentForUser(data.data); // Assuming `data.data` contains the payments
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      }
-    };
-  
-    fetchWorkouts();
+      );
+
+      if (!response.ok)
+        throw new Error(`HTTP error! Status: ${response.status}`);
+
+      const data = await response.json();
+      setPaymentForUser(data.data || []);
+    } catch (error) {
+      console.error("Error fetching payment details:", error);
+    }
+  };
+
+  useEffect(() => {
+    fetchPayments();
   }, [user]);
-  
-console.log(paymentForUser)
+
+  const handleDelete = async (id) => {
+    try {
+      const response = await fetch(
+        `${import.meta.env.VITE_FRONT_END_API_URL}/payment/delete/${id}`,
+        {
+          method: "DELETE",
+          headers: {
+            Authorization: `Bearer ${user.token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+
+      if (!response.ok)
+        throw new Error(`HTTP error! Status: ${response.status}`);
+
+      console.log("Payment deleted successfully");
+      fetchPayments();
+    } catch (error) {
+      console.error("Error deleting payment:", error);
+    }
+  };
+  const filteredPayments = paymentForUser.filter((card) =>
+    [card.owner, card.bank, card.cardType].some((field) =>
+      field?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
+  console.log("User id from payment",user)
 
   return (
     <div className="flex h-screen bg-gradient-to-r from-gray-100 mt-1">
@@ -98,8 +125,8 @@ console.log(paymentForUser)
               alt="User"
               className="rounded-full w-20 h-20 border-2 border-white mb-2"
             />
-            <p className="text-lg font-semibold">{user.user.username}</p>
-            <p className="text-sm">{user.user.email}</p>
+            <p className="text-lg font-semibold">{user?.user?.username}</p>
+            <p className="text-sm">{user?.user?.email}</p>
           </div>
           <nav className="space-y-4">
             <Link
@@ -143,101 +170,92 @@ console.log(paymentForUser)
 
       {/* Main Content */}
       <div className="flex-1 p-6 overflow-auto">
-        {/* Search Bar */}
-        <SearchBar />
-
-        {/* Payment Details Section */}
+        <SearchBar searchQuery={searchQuery} onSearch={setSearchQuery} />
         <div className="max-w-4xl mx-auto mt-8">
           <h2 className="text-2xl font-bold text-gray-800 mb-4">
             My Payment Details
           </h2>
+
           <button
-            onClick={() => setShowPopUp(true)}
-            className="mb-3 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-2 rounded-full transition-colors"
+            onClick={() => setShowAddPopup(true)}
+            className="mb-6 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-2 rounded-full"
           >
             Add Card
           </button>
-          {successMessage && (
-              <div className="mt-4 p-4 bg-red-600 text-white rounded-lg text-center">
-                {successMessage}
-              </div>
-            )}
 
-            {showPopUp && (
-            <div
-              className="popup-overlay"
-              onClick={() => setShowPopUp(false)} // Close on clicking the overlay
-            >
-              <div
-                className="popup-content"
-                onClick={(e) => e.stopPropagation()} // Stop click propagation on popup content
-              >
-                <PopupForm
-                  onClose={() => setShowPopUp(false)}
-                  onSuccessfulPurchase={handleSuccess}
-                />
-              </div>
+          {successMessage && (
+            <div className="mt-4 p-4 bg-blue-600 text-white rounded-lg text-center">
+              {successMessage}
             </div>
           )}
 
-          {/* Payment Card */}
-          {[1, 2].map((_, index) => (
-            <div
-              key={index}
-              className="bg-white  rounded-xl shadow-lg p-6 mb-6 border border-gray-200"
-            >
-              <div className="flex justify-between items-center mb-4">
-                <h3 className="text-lg font-semibold text-gray-800">
-                  Card {index + 1}
-                </h3>
-                <div className="flex space-x-2">
-                  <button className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600">
-                    <FaPencilAlt />
-                  </button>
-                  <button className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600">
-                    <FaTrash />
-                  </button>
+          {filteredPayments.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+              {filteredPayments.map((card) => (
+                <div
+                  key={card._id}
+                  className="bg-white rounded-lg shadow-md p-6 border border-gray-300 hover:shadow-xl transition-all"
+                >
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleEdit(card)}
+                      className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+                    >
+                      <FaPencilAlt />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(card._id)}
+                      className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                  <CreditCard {...card} />
                 </div>
-              </div>
-
-              <div className="grid grid-cols-2 gap-4">
-                <p className="text-gray-600">
-                  <span className="text-green-500 font-semibold">
-                    Bank Name:
-                  </span>{" "}
-                  ABC Bank
-                </p>
-                <p className="text-gray-600">
-                  <span className="text-green-500 font-semibold">Branch:</span>{" "}
-                  Colombo 7
-                </p>
-                <p className="text-gray-600">
-                  <span className="text-green-500 font-semibold">
-                    Card Type:
-                  </span>{" "}
-                  Master
-                </p>
-                <p className="text-gray-600">
-                  <span className="text-green-500 font-semibold">
-                    Card Number:
-                  </span>{" "}
-                  **** **** **** 4125
-                </p>
-                <p className="text-gray-600">
-                  <span className="text-green-500 font-semibold">Owner:</span>{" "}
-                  User 1
-                </p>
-                <p className="text-gray-600">
-                  <span className="text-green-500 font-semibold">
-                    Expiry Date:
-                  </span>{" "}
-                  12/26
-                </p>
-              </div>
+              ))}
             </div>
-          ))}
+          ) : (
+            <p className="text-gray-600 text-center py-4">
+              No payment details found.
+            </p>
+          )}
+
+          {showAddPopup && (
+            <PopupForm
+              onClose={() => setShowAddPopup(false)}
+              onSuccessfulPurchase={handleSuccess}
+            />
+          )}
+          {showUpdatePopup && (
+            <PopupFormUpdate
+              onClose={() => setShowUpdatePopup(false)}
+              paymentData={selectedPayment}
+              onSuccessfulPurchase={handleSuccess}
+            />
+          )}
+        </div>
+        <div>
+          <div className="flex justify-center mt-10">
+            <button
+              onClick={() => setShowTokenPopup(true)}
+              className="flex items-center bg-gradient-to-r from-red-600 to-pink-600 text-white font-semibold px-8 py-3 rounded-full shadow-md hover:shadow-lg hover:from-red-700 hover:to-pink-700 transition-all duration-300"
+            >
+              <FaKey className="mr-2" />
+              Generate Token
+            </button>
+          </div>
         </div>
       </div>
+      {showTokenPopup && (
+        <TokenCreationForm
+          onClose={() => setShowTokenPopup(false)}
+          onCreate={() => {
+            setShowTokenPopup(false);
+            // Optionally show a success message
+            alert("Token created successfully!");
+          }}
+        />
+      )}
     </div>
   );
 };

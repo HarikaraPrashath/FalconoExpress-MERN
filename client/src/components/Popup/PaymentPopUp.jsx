@@ -21,10 +21,11 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
     cardType: "",
     owner: "",
     expiryDate: "",
+    cnn: "",
   });
 
   const handleCarNumberFunction = (e) => {
-    const value = e.target.value.replace(/\D/g, "").slice(0, 16);
+    const value = e.target.value.replace(/\D/g, "").slice(0, 16); // Remove non-numeric characters and limit to 16 digits
     const formattedValue = value
       .replace(/(\d{4})(?=\d)/g, "$1-")
       .replace(/-$/, "");
@@ -35,6 +36,15 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
     }));
   };
 
+  const handleNumericChange = (e) => {
+    const value = e.target.value.replace(/\D/g, "").slice(0, 3); // Remove non-numeric characters and limit to 3 digits
+    setFormData((prev) => ({
+      ...prev,
+      cnn: value,
+    }));
+  };
+  
+
   const handleChange = (e) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
@@ -42,13 +52,26 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // Validation
-    const emptyFields = Object.keys(formData).filter((key) => !formData[key]);
-    if (emptyFields.length > 0) {
-      setError("Please fill in all fields.");
-      setEmptyFields(emptyFields);
-      return;
+    if (
+      !formData.bank ||
+      !formData.branch ||
+      !formData.cNumber ||
+      !formData.cardType ||
+      !formData.owner ||
+      !formData.expiryDate ||
+      !formData.cnn
+    ) {
+      setError("Please fill in all details.");
+      return; // Stop execution
     }
+
+    // Validation
+    // const emptyFields = Object.keys(formData).filter((key) => !formData[key]);
+    // if (emptyFields.length > 0) {
+    //   setError("Please fill in all fields.");
+    //   setEmptyFields(emptyFields);
+    //   return;
+    // }
 
     try {
       //need to add correct function for payment
@@ -78,6 +101,7 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
           cardType: "",
           owner: "",
           expiryDate: "",
+          cnn: "",
         }); // Reset form after successful submission
       }
 
@@ -111,7 +135,11 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
             ✖
           </button>
         </div>
-
+        {error && (
+          <p className="text-red-500 text-sm text-center bg-red-100 p-2 rounded-md mt-4">
+            {error}
+          </p>
+        )}
         {/* Form */}
         <form onSubmit={handleSubmit} className="mt-4 space-y-4">
           <h3 className="text-lg font-medium text-gray-700">Payment Details</h3>
@@ -123,7 +151,6 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
               value={formData.bank}
               onChange={handleChange}
               className="p-3 border rounded-lg focus:ring focus:ring-blue-300"
-              required
             />
             <input
               type="text"
@@ -132,7 +159,6 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
               value={formData.branch}
               onChange={handleChange}
               className="p-3 border rounded-lg focus:ring focus:ring-blue-300"
-              required
             />
             <input
               type="text" // Change from "number" to "text"
@@ -141,7 +167,6 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
               value={formData.cNumber}
               onChange={handleCarNumberFunction}
               className="p-3 border rounded-lg focus:ring focus:ring-blue-300"
-              required
               inputMode="numeric" // Ensures mobile users get a numeric keyboard
               maxLength="19" // 16 digits + 3 hyphens
             />
@@ -153,7 +178,6 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
               value={formData.cardType}
               onChange={handleChange}
               className="p-3 border rounded-lg focus:ring focus:ring-blue-300"
-              required
             />
             <input
               type="text"
@@ -162,7 +186,6 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
               value={formData.owner}
               onChange={handleChange}
               className="p-3 border rounded-lg focus:ring focus:ring-blue-300"
-              required
             />
 
             <input
@@ -172,14 +195,22 @@ const PaymentPopup = ({ onClose, onSuccessfulPurchase }) => {
               value={formData.expiryDate}
               onChange={handleChange}
               className="p-3 border rounded-lg focus:ring focus:ring-blue-300"
-              required
+            />
+            <input
+              type="text"
+              name="cnn"
+              placeholder="CNN"
+              value={formData.cnn}
+              onChange={handleNumericChange}
+              maxLength={3}
+              className="p-3 border rounded-lg focus:ring focus:ring-blue-300"
             />
           </div>
 
           <div className="flex justify-end mt-4">
             <button
               type="submit"
-              className="bg-blue-500 text-white py-2 px-6 rounded-lg hover:bg-blue-600"
+              className="bg-red-500 text-white py-2 px-6 rounded-lg hover:bg-red-600"
             >
               Submit
             </button>

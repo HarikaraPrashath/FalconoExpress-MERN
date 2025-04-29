@@ -47,7 +47,7 @@ export const useLogin = () => {
       localStorage.setItem("user", JSON.stringify(json));
 
       //update the auth context
-      dispatch({ type: "LOGIN", payload: json });
+      // dispatch({ type: "LOGIN", payload: json });
 
       //update
       setIsLoading(false);
@@ -55,6 +55,7 @@ export const useLogin = () => {
       setTimeout(() => {
         window.location.reload(); // Refresh the page to apply the changes
       }, 500);
+      navigate("/");
     }
   };
 

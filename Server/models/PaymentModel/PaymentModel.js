@@ -8,6 +8,7 @@ const UserPayment = new mongoose.Schema(
     cardType: { type: String },
     owner: { type: String },
     expiryDate: { type: String },
+    cnn: { type: String },
     user_id: {type: String},
   },
   { timestamps: true }
