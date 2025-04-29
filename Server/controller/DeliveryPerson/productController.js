@@ -12,28 +12,38 @@ const getProducts = async (req, res) => {
 
 // Add a new product
 const addProduct = async (req, res) => {
-  const { name, brand, price, category, description } = req.body;
+  console.log("Request Body:", req.body); // To check if data is being received correctly
+  
+  const { name, email, phone, category, description, image } = req.body;
+
+  // The correct check for required fields
+  if (!name || !email || !phone || !category || !description || !image) {
+    return res.status(400).json({ message: 'All fields are required' });
+  }
 
   try {
-    const newProduct = new Product({ name, brand, price, category, description });
+    const newProduct = new Product({ name, email, phone, category, description, image });
     await newProduct.save();
     res.status(201).json(newProduct);
   } catch (error) {
+    console.error('Error adding product:', error);
     res.status(400).json({ message: 'Error adding product' });
   }
 };
 
+
 // Update a product
 const updateProduct = async (req, res) => {
   const { id } = req.params;
-  const { name, brand, price, category, description } = req.body;
+  const { name, email, phone, category, description,image } = req.body;
 
   try {
     const updatedProduct = await Product.findByIdAndUpdate(
       id,
-      { name, brand, price, category, description },
+      { name, email, phone, category, description,image },
       { new: true }
     );
+
     if (!updatedProduct) {
       return res.status(404).json({ message: 'Product not found' });
     }

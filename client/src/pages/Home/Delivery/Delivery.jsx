@@ -30,13 +30,13 @@ export default function Delivery() {
           <div className="mb-8 md:mb-0 md:w-1/2">
             <h1 className="text-4xl font-bold mb-4 leading-tight">
               Order Products <br />
-              <span className="text-yellow-500">Faster Easier</span>
+              <span className="text-red-500">Faster Easier</span>
             </h1>
             <p className="text-gray-600 mb-6">
               Order your favorite foods at any time and we will deliver them right to where you are.
             </p>
             <button
-              className="bg-yellow-400 text-black font-semibold px-6 py-2 rounded-full"
+              className="bg-red-400 text-black font-semibold px-6 py-2 rounded-full"
               onClick={() => navigate("/over")} // Correct usage
             >
               Get Started
@@ -58,21 +58,21 @@ export default function Delivery() {
         <div className="grid grid-cols-1 md:grid-cols-3 gap-6 max-w-6xl mx-auto px-4">
           {/* Card 1 */}
           <div className="bg-white shadow-md p-6 rounded-lg">
-            <img src="../src\assets\Images\Wallet-pana.webp" alt="Payment Done" className="mx-auto mb-4 w-32 h-32 object-contain" />
+            <img src="../src\assets\Images\Wallet-pana.webp" alt="Payment Done" className="mx-auto mb-4 60 h-60 object-contain" />
             <h3 className="font-semibold text-lg">Payment Done</h3>
             <p className="text-sm text-gray-600 mt-2">Pay with ease via Paypal, credit and debit cards.</p>
             <button className="mt-4 text-red-500 text-sm">Learn More</button>
           </div>
           {/* Card 2 */}
           <div className="bg-white shadow-md p-6 rounded-lg">
-            <img src="../src\assets\Images\male-couriers-delivering-parcels_74855-14101.avif" alt="Find Your Product" className="mx-auto mb-4 w-32 h-32 object-contain" />
+            <img src="../src\assets\Images\male-couriers-delivering-parcels_74855-14101.avif" alt="Find Your Product" className="mx-auto mb-4 60 h-60 object-contain" />
             <h3 className="font-semibold text-lg">Find Your Product</h3>
             <p className="text-sm text-gray-600 mt-2">We offer tons of products through the internet.</p>
             <button className="mt-4 text-red-500 text-sm">Learn More</button>
           </div>
           {/* Card 3 */}
           <div className="bg-white shadow-md p-6 rounded-lg">
-            <img src="../src\assets\Images\delivery-worker-character-illustration-happy-female-courier-holding-parcel-box-fast-online-delivery-service-vector.jpg" alt="Product Received" className="mx-auto mb-4 w-32 h-32 object-contain" />
+            <img src="../src\assets\Images\delivery-worker-character-illustration-happy-female-courier-holding-parcel-box-fast-online-delivery-service-vector.jpg" alt="Product Received" className="mx-auto mb-4 w-60 h-60 object-contain" />
             <h3 className="font-semibold text-lg">Product Received</h3>
             <p className="text-sm text-gray-600 mt-2">Your items are now in delivery. See when it arrives!</p>
             <button className="mt-4 text-red-500 text-sm">Learn More</button>

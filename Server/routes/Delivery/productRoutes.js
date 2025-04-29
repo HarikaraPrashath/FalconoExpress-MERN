@@ -4,7 +4,7 @@ const {
   addProduct,
   updateProduct,
   deleteProduct,
-} = require('../../controller/DeliveryPerson/productController');
+} = require('../../controller/DeliveryPerson/productController');  // Ensure the path is correct
 
 const router = express.Router();
 

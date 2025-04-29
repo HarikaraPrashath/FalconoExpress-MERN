@@ -28,7 +28,7 @@ function Navbar() {
       </Link>
 
       {/* Center Navigation */}
-      <div className="flex gap-6">
+      <div className="flex justify-center items-center gap-6">
         <NavItem to="/" label="Home" activePath={location.pathname} />
         <NavItem to="/delivery" label="Delivery" activePath={location.pathname} />
         <NavItem to="/about" label="About" activePath={location.pathname} />
@@ -44,7 +44,7 @@ function Navbar() {
             <Button to={`/userProfile/${user.user.id}`} label="Account" />
           )
         ) : (
-          <Button to="/login" label="Login" />
+          <Button to="/crud" label="Account" />
         )}
       </div>
     </div>
