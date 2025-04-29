@@ -11,6 +11,8 @@ import Feature from "../../components/HomePageFeature/FeatureDetails";
 import Pricing from "../../components/HomePageFeature/Pricing";
 import Testimonials from "../../components/HomePageFeature/Feedback";
 import CallToAction from "../../components/HomePageFeature/CallToAction";
+import Chatbot from '../../components/Chatbox/Chatbot'; // Adjust the path as necessary
+
 
 const HomePage = () => {
   return (
@@ -212,6 +214,27 @@ const HomePage = () => {
         <CallToAction />
         <Footer />
       </div>
+      {/* Help Button with Tooltip */}
+<div className="fixed bottom-6 right-6 z-50 group">
+  <div className="relative">
+    {/* Tooltip */}
+  
+
+
+    {/* Circular Button */}
+    {/* <button className="w-14 h-14 bg-red-600 text-white rounded-full shadow-lg hover:bg-red-700 transition-colors duration-300 flex items-center justify-center text-2xl">
+      ?
+    </button> */}
+
+<div className="min-h-screen flex items-center justify-center">
+      <div className="text-center">
+      
+      </div>
+      <Chatbot />
+    </div>
+  </div>
+</div>
+
     </>
   );
 };
