@@ -21,10 +21,8 @@ const Login = () => {
       alert("Error", response.error.message);
     } else {
       console.log("Success", response);
-      navigate("/");
-    
     }
-
+    navigate("/");
     console.log("Submit successful");
   };
 
