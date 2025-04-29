@@ -10,90 +10,13 @@ import Payment from './pages/UserProfilePage/Payment'
 import Information from './pages/UserProfilePage/Information'
 import ContactUs from './pages/Home/Contactus/Contact'
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+// Shangave start
+
+import Delivery from './pages/Home/Delivery/Delivery'
+import Overview from './pages/DeliverySection/Overview'
+import ProductPage from './pages/DeliverySection/ProductPage'
+import HistoryPage from './pages/DeliverySection/HistoryPage'
+//Shangave end
 
 
 
@@ -106,15 +29,9 @@ function App() {
      <Routes>
       {/* Home Page */}
       <Route path='/' element={<HomePage/>}/>
-      <Route path='/login' element={<Login/>}/>
+      {/* <Route path='/login' element={<Login/>}/> */}
       <Route path='/register' element={<Register/>}/>
       <Route path='/contact' element={<ContactUs/>}/>
-
-
-
-
-
-
 
 
       {/* User    start   */}
@@ -123,96 +40,13 @@ function App() {
       <Route path='/payment/:id' element={<Payment/>}/>
       <Route path='/information/:id' element={<Information/>}/>
 
-
-
-
-
-
-
-
-
-
       {/* user end */}
-    
-    
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+      {/* shangave start */}
+      <Route path='/delivery' element={<Delivery/>}/>
+      <Route path="/over" element={<Overview />} />
+      <Route path="/crud" element={<ProductPage />} />
+      <Route path="/history" element={<HistoryPage />} />
 
 
      </Routes>

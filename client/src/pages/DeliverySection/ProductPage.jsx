@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from 'react';
+import { Link } from 'react-router-dom';
 import {
   getProducts,
   addProduct,
   updateProduct,
   deleteProduct,
 } from '../../pages/DeliverySection/api/deliveryProductAPI';
+
 
 const ProductPage = () => {
   const [products, setProducts] = useState([]);
@@ -18,10 +20,11 @@ const ProductPage = () => {
 
   const [newProduct, setNewProduct] = useState({
     name: '',
-    brand: '',
-    price: '',
+    email: '',
+    phone: '',
     category: '',
     description: '',
+    image: '', // New field for image URL or path
   });
 
   useEffect(() => {
@@ -39,20 +42,44 @@ const ProductPage = () => {
 
   const validateForm = (product) => {
     const errors = {};
-    if (!product.name.trim()) errors.name = 'Product name is required';
-    if (!product.brand.trim()) errors.brand = 'Brand is required';
-    if (!product.category.trim()) errors.category = 'Category is required';
-    if (!product.price.trim()) {
-      errors.price = 'Price is required';
-    } else if (isNaN(product.price) || Number(product.price) <= 0) {
-      errors.price = 'Price must be a positive number';
+    if (!product || typeof product !== 'object') return { general: 'Invalid product data' };
+  
+    if (!product.name?.trim()) errors.name = 'Product name is required';
+    
+    // Email Validation
+    if (!product.email?.trim()) {
+      errors.email = 'Email is required';
+    } else if (!/^[\w.-]+@gmail\.com$/.test(product.email)) {
+      errors.email = 'Email must be a valid Gmail address (e.g., example@gmail.com)';
     }
+    
+    // Phone Number Validation
+    if (!product.phone?.trim()) {
+      errors.phone = 'Phone number is required';
+    } else if (!/^\+94\d{9}$/.test(product.phone)) {
+      errors.phone = 'Phone number must start with +94 and be followed by exactly 9 digits';
+    }
+  
+    if (!product.category?.trim()) errors.category = 'Category is required';
+    if (!product.description?.trim()) errors.description = 'Description is required';
+    if (!product.image?.trim()) errors.image = 'Image URL is required';
+    
     return errors;
   };
+  
 
   const handleChangeNewProduct = (e) => {
     const { name, value } = e.target;
     setNewProduct((prev) => ({ ...prev, [name]: value }));
+  };
+
+   // Handle Image Upload
+   const handleImageChange = (e) => {
+    const file = e.target.files[0];
+    if (file) {
+      const imageUrl = URL.createObjectURL(file);
+      setNewProduct((prev) => ({ ...prev, image: imageUrl }));
+    }
   };
 
   const handleAddProduct = async () => {
@@ -65,7 +92,7 @@ const ProductPage = () => {
     try {
       const created = await addProduct(newProduct);
       setProducts([...products, created]);
-      setNewProduct({ name: '', brand: '', price: '', category: '', description: '' });
+      setNewProduct({ name: '', email: '', phone: '', category: '', description: '', image: '' });
       setErrors({});
       setShowModal(false);
     } catch (err) {
@@ -80,12 +107,17 @@ const ProductPage = () => {
   };
 
   const handleUpdate = async () => {
+    if (!editProduct) {
+      console.error("Edit product data is missing!");
+      return;
+    }
+  
     const formErrors = validateForm(editProduct);
     if (Object.keys(formErrors).length > 0) {
       setEditErrors(formErrors);
       return;
     }
-
+  
     try {
       const updated = await updateProduct(editId, editProduct);
       setProducts((prev) => prev.map((p) => (p._id === editId ? updated : p)));
@@ -94,6 +126,8 @@ const ProductPage = () => {
       console.error('Update error:', err);
     }
   };
+  
+  
 
   const handleDelete = async () => {
     try {
@@ -116,7 +150,7 @@ const ProductPage = () => {
     const matchesSearch =
       searchTerm === '' ||
       product.name.toLowerCase().includes(searchTerm.toLowerCase()) ||
-      product.brand.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      product.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.category.toLowerCase().includes(searchTerm.toLowerCase()) ||
       product.description.toLowerCase().includes(searchTerm.toLowerCase());
     return matchesCategory && matchesSearch;
@@ -128,7 +162,7 @@ const ProductPage = () => {
       <div className="flex items-center justify-between mb-4">
         <input
           type="text"
-          placeholder="Search products..."
+          placeholder="Search........"
           className="border px-4 py-2 rounded w-1/3"
           value={searchTerm}
           onChange={(e) => setSearchTerm(e.target.value)}
@@ -136,21 +170,15 @@ const ProductPage = () => {
         <div className="flex items-center gap-3">
           <button
             onClick={() => setShowModal(true)}
-            className="bg-blue-600 text-white px-4 py-2 rounded hover:bg-blue-700"
+            className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700"
           >
-            + Add product
+            + Add Details
           </button>
-          <select
-            value={filter}
-            onChange={(e) => setFilter(e.target.value)}
-            className="border px-4 py-2 rounded"
-          >
-            <option value="All">All</option>
-            <option value="PC">PC</option>
-            <option value="Phone">Phone</option>
-            <option value="Tablet">Tablet</option>
-            <option value="Gaming/Console">Gaming/Console</option>
-          </select>
+          <Link to="/history">
+            <button className="bg-red-600 text-white px-4 py-2 rounded hover:bg-red-700">
+              History
+            </button>
+          </Link>
         </div>
       </div>
 
@@ -161,10 +189,11 @@ const ProductPage = () => {
             <tr>
               <th className="px-4 py-3">Product Name</th>
               <th className="px-4 py-3">Category</th>
-              <th className="px-4 py-3">Brand</th>
+              <th className="px-4 py-3">Email</th>
               <th className="px-4 py-3">Description</th>
-              <th className="px-4 py-3">Price</th>
-              <th className="px-4 py-3"></th>
+              <th className="px-4 py-3">Phone No</th>
+              <th className="px-4 py-3">Image</th>
+              <th className="px-4 py-3">Actions</th>
             </tr>
           </thead>
           <tbody>
@@ -172,15 +201,18 @@ const ProductPage = () => {
               <tr key={p._id} className="border-t hover:bg-gray-50">
                 <td className="px-4 py-3">{p.name}</td>
                 <td className="px-4 py-3">{p.category}</td>
-                <td className="px-4 py-3">{p.brand}</td>
+                <td className="px-4 py-3">{p.email}</td>
                 <td className="px-4 py-3 truncate max-w-xs">{p.description}</td>
-                <td className="px-4 py-3">${p.price}</td>
-                <td className="px-4 py-3 text-right">
+                <td className="px-4 py-3">{p.phone}</td>
+                <td className="px-4 py-3">
+                  <img src={p.image}  className="w-20 h-20 rounded-full object-cover" /> {/* Image Display */}
+                </td>
+                <td className="px-4 py-3 ">
                   <button
                     onClick={() => handleEditClick(p)}
-                    className="text-blue-600 hover:underline"
+                    className="text-red-600 hover:underline"
                   >
-                    ...
+                    Edit
                   </button>
                 </td>
               </tr>
@@ -195,7 +227,7 @@ const ProductPage = () => {
           <div className="bg-white rounded-xl p-6 w-full max-w-md relative">
             <h2 className="text-2xl font-semibold mb-4">Add Product</h2>
             <div className="grid grid-cols-1 gap-3 mb-4">
-              {['name', 'brand', 'price', 'category', 'description'].map((field) => (
+              {['name', 'email', 'phone', 'category', 'description', 'image'].map((field) => (
                 <div key={field}>
                   {field !== 'description' ? (
                     <input
@@ -218,9 +250,17 @@ const ProductPage = () => {
                   {errors[field] && <p className="text-red-500 text-sm">{errors[field]}</p>}
                 </div>
               ))}
+              <div>
+                <input
+                  type="file"
+                  onChange={handleImageChange}
+                  className="border p-2 rounded w-full"
+                />
+                {errors.image && <p className="text-red-500 text-sm">{errors.image}</p>}
+              </div>
             </div>
             <div className="flex justify-end">
-              <button onClick={handleAddProduct} className="bg-blue-600 text-white px-4 py-2 rounded">
+              <button onClick={handleAddProduct} className="bg-red-600 text-white px-4 py-2 rounded">
                 Add
               </button>
             </div>
@@ -237,7 +277,7 @@ const ProductPage = () => {
           <div className="bg-white p-6 rounded-lg w-full max-w-lg relative">
             <h2 className="text-xl font-semibold mb-4">Edit Product</h2>
             <div className="grid grid-cols-2 gap-4 mb-4">
-              {['name', 'brand', 'price', 'category'].map((field) => (
+              {['name', 'email', 'phone', 'category'].map((field) => (
                 <div key={field}>
                   <input
                     type="text"
