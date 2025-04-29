@@ -24,3 +24,10 @@ dist-ssr
 *.sw?
 *.env
 
+# Environment variables
+.env
+
+
+
+# Node dependencies
+node_modules/
