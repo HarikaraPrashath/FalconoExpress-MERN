@@ -12,6 +12,10 @@ import PopupForm from "../../components/Popup/PaymentPopUp";
 import PopupFormUpdate from "../../components/Popup/PaymentPopUpUpdate";
 import CreditCard from "../../components/CardBank/CreditCard";
 
+import TokenCreationForm from "../../components/TokenCreation/TokenCreationForm";
+import { FaKey } from "react-icons/fa";
+
+
 const Payment = () => {
   const { user } = useAuthContext();
   const { id } = useParams();
@@ -20,6 +24,9 @@ const Payment = () => {
   const [successMessage, setSuccessMessage] = useState("");
   const [paymentForUser, setPaymentForUser] = useState([]);
   const [selectedPayment, setSelectedPayment] = useState(null);
+  const [searchQuery, setSearchQuery] = useState("");
+
+  const [showTokenPopup, setShowTokenPopup] = useState(false);
 
   const logoutUser = () => {
     localStorage.removeItem("authToken");
@@ -36,6 +43,7 @@ const Payment = () => {
 
   const handleSuccess = () => {
     setShowAddPopup(false);
+    setSuccessMessage("Successfully updated payment details!");
     setSuccessMessage("Successfully added payment details!");
     setTimeout(() => setSuccessMessage(""), 3000);
     fetchPayments();
@@ -46,7 +54,9 @@ const Payment = () => {
 
     try {
       const response = await fetch(
-        `${import.meta.env.VITE_FRONT_END_API_URL}/payment/getOne/${user.user.id}`,
+        `${import.meta.env.VITE_FRONT_END_API_URL}/payment/getOne/${
+          user.user.id
+        }`,
         {
           method: "GET",
           headers: {
@@ -56,7 +66,8 @@ const Payment = () => {
         }
       );
 
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!response.ok)
+        throw new Error(`HTTP error! Status: ${response.status}`);
 
       const data = await response.json();
       setPaymentForUser(data.data || []);
@@ -82,7 +93,8 @@ const Payment = () => {
         }
       );
 
-      if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+      if (!response.ok)
+        throw new Error(`HTTP error! Status: ${response.status}`);
 
       console.log("Payment deleted successfully");
       fetchPayments();
@@ -90,6 +102,13 @@ const Payment = () => {
       console.error("Error deleting payment:", error);
     }
   };
+  const filteredPayments = paymentForUser.filter((card) =>
+    [card.owner, card.bank, card.cardType].some((field) =>
+      field?.toLowerCase().includes(searchQuery.toLowerCase())
+    )
+  );
+
+  console.log("User id from payment",user)
 
   return (
     <div className="flex h-screen bg-gradient-to-r from-gray-100 mt-1">
@@ -110,23 +129,38 @@ const Payment = () => {
             <p className="text-sm">{user?.user?.email}</p>
           </div>
           <nav className="space-y-4">
-            <Link to={`/userprofile/${id}`} className="flex items-center space-x-2 p-2 hover:bg-white hover:text-red-600 rounded">
+            <Link
+              to={`/userprofile/${id}`}
+              className="flex items-center space-x-2 p-2 hover:bg-white hover:text-red-600 rounded"
+            >
               <FaBookmark className="text-xl" />
               <span>Orders</span>
             </Link>
-            <Link to={`/information/${id}`} className="flex items-center space-x-2 p-2 hover:bg-white hover:text-red-600 rounded">
+            <Link
+              to={`/information/${id}`}
+              className="flex items-center space-x-2 p-2 hover:bg-white hover:text-red-600 rounded"
+            >
               <IoIosInformationCircle className="text-xl" />
               <span>Information</span>
             </Link>
-            <Link to={`/payment/${id}`} className="flex items-center space-x-2 p-2 bg-white text-red-600 rounded">
+            <Link
+              to={`/payment/${id}`}
+              className="flex items-center space-x-2 p-2 bg-white text-red-600 rounded"
+            >
               <MdOutlinePayment className="text-xl" />
               <span>Payment</span>
             </Link>
-            <Link to={`/promotion/${id}`} className="flex items-center space-x-2 p-2 hover:bg-white hover:text-red-600 rounded">
+            <Link
+              to={`/promotion/${id}`}
+              className="flex items-center space-x-2 p-2 hover:bg-white hover:text-red-600 rounded"
+            >
               <BiSolidOffer className="text-xl" />
               <span>Promotion</span>
             </Link>
-            <Link onClick={logoutUser} className="flex items-center space-x-3 p-2 hover:bg-white hover:text-red-600 rounded">
+            <Link
+              onClick={logoutUser}
+              className="flex items-center space-x-3 p-2 hover:bg-white hover:text-red-600 rounded"
+            >
               <IoLogOut className="text-xl" />
               <span>Logout</span>
             </Link>
@@ -136,74 +170,92 @@ const Payment = () => {
 
       {/* Main Content */}
       <div className="flex-1 p-6 overflow-auto">
-        <SearchBar />
+        <SearchBar searchQuery={searchQuery} onSearch={setSearchQuery} />
         <div className="max-w-4xl mx-auto mt-8">
-  <h2 className="text-2xl font-bold text-gray-800 mb-4">My Payment Details</h2>
+          <h2 className="text-2xl font-bold text-gray-800 mb-4">
+            My Payment Details
+          </h2>
 
-  <button
-    onClick={() => setShowAddPopup(true)}
-    className="mb-6 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-2 rounded-full"
-  >
-    Add Card
-  </button>
+          <button
+            onClick={() => setShowAddPopup(true)}
+            className="mb-6 bg-gradient-to-r from-red-500 to-pink-500 text-white px-6 py-2 rounded-full"
+          >
+            Add Card
+          </button>
 
-  {successMessage && (
-    <div className="mt-4 p-4 bg-blue-600 text-white rounded-lg text-center">
-      {successMessage}
-    </div>
-  )}
-
-  {showAddPopup && (
-    <PopupForm onClose={() => setShowAddPopup(false)} onSuccessfulPurchase={handleSuccess} />
-  )}
-
-  {paymentForUser.length > 0 ? (
-    <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
-      {paymentForUser.map((card, index) => (
-        <div
-          key={card._id}
-          className="bg-white rounded-lg shadow-md p-6 border border-gray-300 hover:shadow-xl transition-all"
-        >
-        <div className="flex space-x-2">
-              <button
-                onClick={() => handleEdit(card)}
-                className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all"
-              >
-                <FaPencilAlt />
-              </button>
-              <button
-                onClick={() => handleDelete(card._id)}
-                className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600 transition-all"
-              >
-                <FaTrash />
-              </button>
+          {successMessage && (
+            <div className="mt-4 p-4 bg-blue-600 text-white rounded-lg text-center">
+              {successMessage}
             </div>
-          {/* Credit Card Component */}
-          <div className="w-full">
-            <CreditCard
-              bankCard={card.bank}
-              branch={card.branch}
-              cardType={card.cardType}
-              cNumber={card.cNumber}
-              owner={card.owner}
-              expiryDate={card.expiryDate}
-              cnn={card.cnn}
+          )}
+
+          {filteredPayments.length > 0 ? (
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-2 gap-6">
+              {filteredPayments.map((card) => (
+                <div
+                  key={card._id}
+                  className="bg-white rounded-lg shadow-md p-6 border border-gray-300 hover:shadow-xl transition-all"
+                >
+                  <div className="flex space-x-2">
+                    <button
+                      onClick={() => handleEdit(card)}
+                      className="p-2 bg-blue-500 text-white rounded-full hover:bg-blue-600"
+                    >
+                      <FaPencilAlt />
+                    </button>
+                    <button
+                      onClick={() => handleDelete(card._id)}
+                      className="p-2 bg-red-500 text-white rounded-full hover:bg-red-600"
+                    >
+                      <FaTrash />
+                    </button>
+                  </div>
+                  <CreditCard {...card} />
+                </div>
+              ))}
+            </div>
+          ) : (
+            <p className="text-gray-600 text-center py-4">
+              No payment details found.
+            </p>
+          )}
+
+          {showAddPopup && (
+            <PopupForm
+              onClose={() => setShowAddPopup(false)}
+              onSuccessfulPurchase={handleSuccess}
             />
+          )}
+          {showUpdatePopup && (
+            <PopupFormUpdate
+              onClose={() => setShowUpdatePopup(false)}
+              paymentData={selectedPayment}
+              onSuccessfulPurchase={handleSuccess}
+            />
+          )}
+        </div>
+        <div>
+          <div className="flex justify-center mt-10">
+            <button
+              onClick={() => setShowTokenPopup(true)}
+              className="flex items-center bg-gradient-to-r from-red-600 to-pink-600 text-white font-semibold px-8 py-3 rounded-full shadow-md hover:shadow-lg hover:from-red-700 hover:to-pink-700 transition-all duration-300"
+            >
+              <FaKey className="mr-2" />
+              Generate Token
+            </button>
           </div>
         </div>
-      ))}
-    </div>
-  ) : (
-    <p className="text-gray-600 text-center py-4">No payment details found.</p>
-  )}
-
-  {showUpdatePopup && (
-    <PopupFormUpdate onSuccessfulPurchase={handleSuccess} onClose={() => setShowUpdatePopup(false)} paymentData={selectedPayment} />
-  )}
-</div>
-
-
       </div>
+      {showTokenPopup && (
+        <TokenCreationForm
+          onClose={() => setShowTokenPopup(false)}
+          onCreate={() => {
+            setShowTokenPopup(false);
+            // Optionally show a success message
+            alert("Token created successfully!");
+          }}
+        />
+      )}
     </div>
   );
 };

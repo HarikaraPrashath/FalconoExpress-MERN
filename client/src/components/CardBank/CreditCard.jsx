@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 import Tap from '../../assets/img/tap.png'
 import './CreditCard.css'; // We'll define the CSS in a separate file
 
-const CreditCard = ({bankCard,branch,cardType,cNumber,owner,expiryDate,cnn}) => {
+const CreditCard = ({bank,branch,cardType,cNumber,owner,expiryDate,cnn}) => {
   const [isFlipped, setIsFlipped] = useState(false);
 
   const handleCardClick = () => {
@@ -14,7 +14,7 @@ const CreditCard = ({bankCard,branch,cardType,cNumber,owner,expiryDate,cnn}) => 
       <div className={`card ${isFlipped ? 'flipped' : ''}`}>
         {/* Front of the Card */}
         <div className="card-front">
-          <div className="bank-name">{bankCard}</div>
+          <div className="bank-name">{bank}</div>
           <div className="chip-and-contactless">
             <div className="chip"></div>
             <div className="w-9 h-9 "><img src={Tap}/></div>

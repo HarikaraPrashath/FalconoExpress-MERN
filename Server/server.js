@@ -6,6 +6,9 @@ const mongoose = require("mongoose");
 const authRouter = require("./routes/AuthRoute/AuthRoute");
 const inforDetails = require("./routes/DetailsRoutes/detailsRoute");
 const paymentDetails = require("./routes/PaymentRotes/PaymentRoute");
+const Passcode = require("./routes/PromoCodeRoute/PromoCodeRoute.js")
+const OrderMake = require("./routes/OrderRoute/OrderRoute.js")
+
 
 
 
@@ -41,7 +44,8 @@ app.use(express.json());
 app.use("/auth", authRouter);
 app.use("/details", inforDetails);
 app.use("/payment", paymentDetails);
-
+app.use('/tokens', Passcode);
+app.use('/orders', OrderMake);
 
 
 
