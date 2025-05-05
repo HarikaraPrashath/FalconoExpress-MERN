@@ -6,6 +6,8 @@ import { FaBookmark } from "react-icons/fa";
 import { BiSolidOffer } from "react-icons/bi";
 import { IoLogOut } from "react-icons/io5";
 import { FaPencilAlt, FaTrash } from "react-icons/fa";
+import { SiTrustpilot } from "react-icons/si";
+
 import { Link } from "react-router-dom";
 import {
   CalendarIcon,
@@ -66,7 +68,11 @@ const OrderManagement = () => {
   }, []);
 
   if (isLoading) {
-    return <div className="flex h-screen items-center justify-center">Loading...</div>;
+    return (
+      <div className="flex h-screen items-center justify-center">
+        Loading...
+      </div>
+    );
   }
 
   // Filter orders for "New Orders" (not assigned or cancelled)
@@ -75,16 +81,22 @@ const OrderManagement = () => {
   );
 
   // Filter orders for "Current Deliveries" (assigned)
-  const currentDeliveries = allOrders.filter((order) => order.status === "assigned");
+  const currentDeliveries = allOrders.filter(
+    (order) => order.status === "assigned"
+  );
 
   // Combined search filter for both sections
   const filterOrders = (orders) =>
     orders.filter(
       (order) =>
-        (order.orderNo && order.orderNo.toLowerCase().includes(searchTerm.toLowerCase())) ||
+        (order.orderNo &&
+          order.orderNo.toLowerCase().includes(searchTerm.toLowerCase())) ||
         (order.deliveryPerson &&
-          order.deliveryPerson.toLowerCase().includes(searchTerm.toLowerCase())) ||
-        (order.date && order.date.toLowerCase().includes(searchTerm.toLowerCase()))
+          order.deliveryPerson
+            .toLowerCase()
+            .includes(searchTerm.toLowerCase())) ||
+        (order.date &&
+          order.date.toLowerCase().includes(searchTerm.toLowerCase()))
     );
 
   const filteredNewOrders = filterOrders(newOrders);
@@ -109,43 +121,50 @@ const OrderManagement = () => {
             <p className="text-sm opacity-80">admin@gmail.com</p>
           </div>
           <nav className="space-y-4">
-                <Link
-                  to={`/adminOrder`}
-                  className="flex items-center space-x-2 w-full text-left p-2 bg-white text-red-600 rounded"
-                >
-                  <FaBookmark className="text-xl" />
-                  <span>Orders</span>
-                </Link>
-                <Link
-                  to={`/custonerdelivery`}
-                  className="flex items-center space-x-2 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
-                >
-                  <IoIosInformationCircle className="text-xl" />
-                  <span>Customer Delivery</span>
-                </Link>
-                <Link
-                  to={`/paymentad`}
-                  className="flex items-center space-x-2 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
-                >
-                  <MdOutlinePayment className="text-xl" />
-                  <span>Payment</span>
-                </Link>
-    
-                <Link
-                  to={`/revenue`}
-                  className="flex items-center space-x-2 w-full text-left p-2   hover:bg-white hover:text-red-600 rounded"
-                >
-                  <BiSolidOffer className="text-xl" />
-                  <span>Revenue Infor</span>
-                </Link>
-                <Link
-                  onClick={logoutUser}
-                  className="flex items-center space-x-3 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
-                >
-                  <IoLogOut className="text-xl" />
-                  <span>Logout</span>
-                </Link>
-              </nav>
+            <Link
+              to={`/adminOrder`}
+              className="flex items-center space-x-2 w-full text-left p-2 bg-white text-red-600 rounded"
+            >
+              <FaBookmark className="text-xl" />
+              <span>Orders</span>
+            </Link>
+            <Link
+              to={`/custonerdelivery`}
+              className="flex items-center space-x-2 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
+            >
+              <IoIosInformationCircle className="text-xl" />
+              <span>Customer Delivery</span>
+            </Link>
+            <Link
+              to={`/paymentad`}
+              className="flex items-center space-x-2 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
+            >
+              <MdOutlinePayment className="text-xl" />
+              <span>Payment</span>
+            </Link>
+
+            <Link
+              to={`/revenue`}
+              className="flex items-center space-x-2 w-full text-left p-2   hover:bg-white hover:text-red-600 rounded"
+            >
+              <BiSolidOffer className="text-xl" />
+              <span>Revenue Infor</span>
+            </Link>
+            <Link
+              to={`/loyalty`}
+              className="flex items-center space-x-2 w-full text-left p-2   hover:bg-white hover:text-red-600 rounded"
+            >
+              <SiTrustpilot className="text-xl" />
+              <span>Loyalty Infor</span>
+            </Link>
+            <Link
+              onClick={logoutUser}
+              className="flex items-center space-x-3 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
+            >
+              <IoLogOut className="text-xl" />
+              <span>Logout</span>
+            </Link>
+          </nav>
         </div>
       </aside>
 
@@ -155,7 +174,9 @@ const OrderManagement = () => {
           <div className="flex items-center justify-between">
             <h1 className="text-xl font-semibold">Manage Orders</h1>
             <Button size="sm">
-              <a href="/orderviewpage/DeliveryAssignPage/orderHistory">History</a>
+              <a href="/orderviewpage/DeliveryAssignPage/orderHistory">
+                History
+              </a>
             </Button>
           </div>
         </header>
@@ -208,7 +229,9 @@ const OrderManagement = () => {
               className={`transition-transform duration-300 transform hover:scale-105 ${item.bg}`}
             >
               <CardHeader className="flex flex-row items-center justify-between pb-2">
-                <CardTitle className="text-sm font-medium">{item.title}</CardTitle>
+                <CardTitle className="text-sm font-medium">
+                  {item.title}
+                </CardTitle>
                 {item.icon}
               </CardHeader>
               <CardContent>
@@ -223,7 +246,9 @@ const OrderManagement = () => {
         <div className="mt-6">
           <Card className="bg-gradient-to-br from-gray-100 to-white shadow-sm">
             <CardHeader>
-              <CardTitle className="text-lg font-bold text-gray-800">New Orders</CardTitle>
+              <CardTitle className="text-lg font-bold text-gray-800">
+                New Orders
+              </CardTitle>
               <CardDescription className="text-sm text-gray-500">
                 Orders waiting to be assigned
               </CardDescription>
@@ -239,10 +264,14 @@ const OrderManagement = () => {
                       <CardContent className="p-4">
                         <div className="flex items-start justify-between">
                           <div>
-                            <p className="font-semibold text-gray-900">Order {order.orderNo}</p>
+                            <p className="font-semibold text-gray-900">
+                              Order {order.orderNo}
+                            </p>
                             <div className="flex items-center gap-2 text-sm text-gray-500">
                               <CalendarIcon className="h-4 w-4" />
-                              <span>{order.date || new Date().toLocaleDateString()}</span>
+                              <span>
+                                {order.date || new Date().toLocaleDateString()}
+                              </span>
                             </div>
                           </div>
                         </div>
@@ -275,7 +304,9 @@ const OrderManagement = () => {
           <Card className="overflow-hidden">
             <CardHeader>
               <CardTitle>Current Deliveries</CardTitle>
-              <CardDescription>Manage and track ongoing deliveries</CardDescription>
+              <CardDescription>
+                Manage and track ongoing deliveries
+              </CardDescription>
             </CardHeader>
             <CardContent>
               <div className="overflow-x-auto">
@@ -293,13 +324,19 @@ const OrderManagement = () => {
                     {filteredDeliveries.length > 0 ? (
                       filteredDeliveries.map((delivery) => (
                         <TableRow key={delivery._id}>
-                          <TableCell className="font-medium">{delivery.orderNo}</TableCell>
-                          <TableCell>{delivery.deliveryPerson || "N/A"}</TableCell>
+                          <TableCell className="font-medium">
+                            {delivery.orderNo}
+                          </TableCell>
+                          <TableCell>
+                            {delivery.deliveryPerson || "N/A"}
+                          </TableCell>
                           <TableCell>
                             {delivery.date || new Date().toLocaleDateString()}
                           </TableCell>
                           <TableCell>
-                            <span className="text-green-600 font-semibold">In Progress</span>
+                            <span className="text-green-600 font-semibold">
+                              In Progress
+                            </span>
                           </TableCell>
                           <TableCell className="text-right">
                             <Link
@@ -314,7 +351,10 @@ const OrderManagement = () => {
                       ))
                     ) : (
                       <TableRow>
-                        <TableCell colSpan={5} className="text-center text-gray-500">
+                        <TableCell
+                          colSpan={5}
+                          className="text-center text-gray-500"
+                        >
                           No current deliveries match your search.
                         </TableCell>
                       </TableRow>

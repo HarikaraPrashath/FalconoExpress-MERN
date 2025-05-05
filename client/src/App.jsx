@@ -18,6 +18,7 @@ import RevenueManagment from '.././src/pages/Admin/AdminHome/RevenueManagment';
 import AssignPerson from './pages/Admin/AdminHome/TharshanExtraPage/DeliveryAssignPage'
 import DeliveryViewPage from './pages/Admin/AdminHome/TharshanExtraPage/ViewDeatilspage'
 import EditAssignPerson from './pages/Admin/AdminHome/TharshanExtraPage/Editviewpage'
+import Loyalty from './pages/Admin/AdminHome/Loyalty'
 
 
 
@@ -237,6 +238,7 @@ function App() {
   <Route path="/custonerdelivery" element={<CustomerDeliveryManagment />} />
   <Route path="/revenue" element={<RevenueManagment />} />
   <Route path="/paymentad" element={<PaymentAd />} />
+  <Route path="/loyalty" element={<Loyalty />} />
 
 
 

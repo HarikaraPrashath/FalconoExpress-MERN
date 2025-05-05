@@ -1,17 +1,15 @@
 import React from "react";
 import { AiFillHome } from "react-icons/ai";
-import { IoIosInformationCircle } from "react-icons/io";
-import { MdOutlinePayment } from "react-icons/md";
-import { FaBookmark } from "react-icons/fa";
 import { BiSolidOffer } from "react-icons/bi";
+import { FaBookmark } from "react-icons/fa";
+import { IoIosInformationCircle } from "react-icons/io";
 import { IoLogOut } from "react-icons/io5";
-import { FaPencilAlt, FaTrash } from "react-icons/fa";
-import { Link, useParams } from "react-router-dom";
-// import { useAuthContext } from "../../../hook/useAuthContext";
-import SearchBar from "../../../components/SearchBar/SearchBar";
+import { MdOutlinePayment } from "react-icons/md";
 import { SiTrustpilot } from "react-icons/si";
+import { Link } from "react-router-dom";
+import SearchBar from "../../../components/SearchBar/SearchBar";
 
-const CustomerDelivery = () => {
+const Loyalty = () => {
   const logoutUser = () => {
     localStorage.removeItem("authToken");
     sessionStorage.removeItem("authToken");
@@ -19,7 +17,6 @@ const CustomerDelivery = () => {
     sessionStorage.removeItem("user");
     window.location.href = "/";
   };
-
   return (
     <div className="flex h-screen bg-gray-100 mt-1">
       {/* Sidebar */}
@@ -41,14 +38,14 @@ const CustomerDelivery = () => {
           <nav className="space-y-4">
             <Link
               to={`/adminOrder`}
-              className="flex items-center space-x-2 w-full text-left p-2   hover:bg-white hover:text-red-600  rounded"
+              className="flex items-center space-x-2 w-full text-left p-2  hover:bg-white hover:text-red-600 rounded"
             >
               <FaBookmark className="text-xl" />
               <span>Orders</span>
             </Link>
             <Link
               to={`/custonerdelivery`}
-              className="flex items-center space-x-2 w-full text-left p-2  bg-white text-red-600 rounded"
+              className="flex items-center space-x-2 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
             >
               <IoIosInformationCircle className="text-xl" />
               <span>Customer Delivery</span>
@@ -63,21 +60,21 @@ const CustomerDelivery = () => {
 
             <Link
               to={`/revenue`}
-              className="flex items-center space-x-2 w-full text-left p-2 hover:bg-white hover:text-red-600  rounded"
+              className="flex items-center space-x-2 w-full text-left p-2  hover:bg-white hover:text-red-600 rounded"
             >
               <BiSolidOffer className="text-xl" />
               <span>Revenue Infor</span>
             </Link>
             <Link
               to={`/loyalty`}
-              className="flex items-center space-x-2 w-full text-left p-2   hover:bg-white hover:text-red-600 rounded"
+              className="flex items-center space-x-2 w-full text-left p-2   bg-white  text-red-600  rounded"
             >
               <SiTrustpilot className="text-xl" />
               <span>Loyalty Infor</span>
             </Link>
             <Link
               onClick={logoutUser}
-              className="flex items-center space-x-3 w-full text-left p-2 hover:bg-white hover:text-red-600 rounded"
+              className="flex items-center space-x-3 w-full text-left p-2  hover:bg-white hover:text-red-600  rounded"
             >
               <IoLogOut className="text-xl" />
               <span>Logout</span>
@@ -88,13 +85,10 @@ const CustomerDelivery = () => {
 
       {/* Main Content */}
       <div className="flex-1 p-6 overflow-auto">
-        {/* Search Bar */}
         <SearchBar />
-
-        {/* Dynamic content admin page */}
       </div>
     </div>
   );
 };
 
-export default CustomerDelivery;
+export default Loyalty;
