@@ -31,7 +31,7 @@ function Navbar() {
       <div className="flex gap-6">
         <NavItem to="/" label="Home" activePath={location.pathname} />
         <NavItem to="/delivery" label="Delivery" activePath={location.pathname} />
-        <NavItem to="/about" label="About" activePath={location.pathname} />
+        <NavItem to="/aboutuspage" label="About" activePath={location.pathname} />
         <NavItem to="/contact" label="Contact" activePath={location.pathname} />
       </div>
 
@@ -39,7 +39,7 @@ function Navbar() {
       <div>
         {user && user.user ? (
           user.user.role === "admin" ? (
-            <Button to="/admin-dashboard" label="Dashboard" />
+            <Button to="/adminOrder" label="Dashboard" />
           ) : (
             <Button to={`/userProfile/${user.user.id}`} label="Account" />
           )

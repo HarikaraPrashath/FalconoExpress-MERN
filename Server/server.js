@@ -9,7 +9,7 @@ const paymentDetails = require("./routes/PaymentRotes/PaymentRoute");
 const Passcode = require("./routes/PromoCodeRoute/PromoCodeRoute.js")
 const OrderMake = require("./routes/OrderRoute/OrderRoute.js")
 
-
+const orderDelivery = require("./routes/OrderRoutes/orderRoutes.js");
 
 
 
@@ -47,6 +47,7 @@ app.use("/payment", paymentDetails);
 app.use('/tokens', Passcode);
 app.use('/orders', OrderMake);
 
+app.use("/api/orders", orderDelivery);
 
 
 

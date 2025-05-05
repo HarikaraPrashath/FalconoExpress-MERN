@@ -14,4 +14,4 @@ const orderSchema = new mongoose.Schema({
   deliveryCost: { type: Number, required: true },
 }, { timestamps: true });
 
-module.exports = mongoose.model('Order', orderSchema);
+module.exports = mongoose.model('OrderUser', orderSchema);
