@@ -41,6 +41,9 @@ app.use(express.urlencoded({ extended: true }));
 app.use("/auth", authRouter);
 app.use("/details", inforDetails);
 app.use("/payment", paymentDetails);
+app.use('/tokens', Passcode);
+app.use('/orders', OrderMake);
+
 
 app.use('/tokens', Passcode);
 app.use('/orders', OrderMake);
