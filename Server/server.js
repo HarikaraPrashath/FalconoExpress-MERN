@@ -4,6 +4,28 @@ const cors = require("cors");
 const mongoose = require("mongoose");
 
 // Initialize app
+const authRouter = require("./routes/AuthRoute/AuthRoute");
+const inforDetails = require("./routes/DetailsRoutes/detailsRoute");
+const paymentDetails = require("./routes/PaymentRotes/PaymentRoute");
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+const orderDelivery = require("./routes/OrderRoutes/orderRoutes");
 const app = express();
 
 // Middleware
@@ -34,6 +56,24 @@ app.use("/api/orders", orderDelivery);
 app.get("/", (req, res) => res.send("API running"));
 
 // Database Connection
+
+
+
+
+
+
+
+
+app.use("/api/orders", orderDelivery);
+//checking database connection
+const MongoAddress = process.env.MONGO_ADDRESS;
+
+if (!MongoAddress) {
+  console.error("MongoDB address not provided");
+  process.exit(1);
+}
+
+//database connection
 const connectDB = async () => {
   try {
     await mongoose.connect(process.env.MONGO_ADDRESS, {
